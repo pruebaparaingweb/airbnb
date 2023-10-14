@@ -1,0 +1,190 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Pago de la reserva {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="content">
+    <h2>Resumen de pago</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                {% if vivienda|count > 1 %}
+                <div class="card-header text-center">
+                    <h2><b>{{vivienda.nombre}}</b></h2>
+                </div>
+                <div class="card-body">
+                    <div class="col-sm-12">
+
+                        {% if vivienda.fotos|count > 0 %}
+                        <h4 style="margin-bottom:10px">Fotos</h4>
+                        <div class="text-center">
+                            <div class="">
+                                {% for url in vivienda.fotos %}
+                                <img src="{{ url }}" class="mySlides" alt="{{ vivienda.nombre }}" height="250px"
+                                     width="auto" />
+                                {% endfor %}
+                                <br>
+                                <button class="w3-btn-floating btn btn-light" style="width: 100px; height: auto"
+                                        onclick="plusDivs(-1)">
+                                    &#10094;
+                                </button>
+                                <button class="w3-btn-floating btn btn-light" style="width: 100px; height: auto"
+                                        onclick="plusDivs(+1)">
+                                    &#10095;
+                                </button>
+                            </div>
+
+
+                        </div>
+                        {% else %}
+                        <h4 style="margin-bottom:10px">No hay fotos disponibles</h4>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-sm-12">
+                        <h4 style="margin-bottom:10px">Descripci&oacute;n</h4>
+                    </div>
+                    <div class="col-sm-12">
+                        <p class="blockquote blockquote-primary" style="border-color:#a2a2a2; color:#000;">
+                            {{ vivienda.descripcion }}
+                        </p>
+                    </div>
+                    <div class="col-sm-12">
+                        <h4 style="margin-bottom:10px">Precio</h4>
+                    </div>
+                    <div class="col-sm-12" style="margin-left:7px; font-size:20px; margin-bottom:20px;">
+                        {{ vivienda.precio }} €/noche <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <h4 style="margin-bottom:10px">Fecha inicio</h4>
+                    </div>
+                    <div class="col-sm-6" style="margin-left:7px; font-size:20px; margin-bottom:20px;">
+                        {{ fechaInicio }}
+                    </div>
+                    <div class="col-sm-6">
+                        <h4 style="margin-bottom:10px">Fecha Fin</h4>
+                    </div>
+                    <div class="col-sm-6" style="margin-left:7px; font-size:20px; margin-bottom:20px;">
+                        {{ fechaFin }}
+                    </div>
+                    <div class="col-sm-12" style="font-size:20px;">
+                        Noches reservadas
+                    </div>
+                    <div class="col-sm-12" style="font-size:20px; margin-bottom:20px;">
+                        {{ dias }} <br>
+                    </div>
+                    <div class="col-sm-12" style="font-size:20px;">
+                        <b>Precio total</b> <br>
+                    </div>
+                    <div class="col-sm-12" style="font-size:30px; margin-bottom:20px;">
+                        <b>{{ precio_total }} € </b><br>
+                    </div>
+
+                    <h3 class="text-center">Efectuar Pago</h3>
+                    <!-- 
+                    <div class="text-center">Usuario:&nbsp;&nbsp;&nbsp;<b>sb-kbcf223413504@personal.example.com</b></div>
+                    <div class="text-center">Password:&nbsp;&nbsp;<b>>IB>&[8u</b></div>
+                    -->
+
+                    <div class="text-center">Usuario:&nbsp;&nbsp;&nbsp;<b>sb-ufgyn27608499@business.example.com</b></div>
+                    <div class="text-center">Password:&nbsp;&nbsp;<b>2OL!%V4y</b></div>
+                </div>
+                <!-- Set up a container element for the button -->
+                <div class="row mt-3">
+                    <div class="col-sm-5">
+                    </div>
+                    <div class="col-sm-3">
+                        
+
+                        <div id="paypal-button-container"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="paypal-button-container"></div>
+                    </div>
+                </div>
+                <script
+                    src="https://www.paypal.com/sdk/js?client-id=AWoA_0edBucmV3xTeqWnbfq1VP83lWrx4yVHGUiJ246iOPQ-4bEKcDM62WudhtWk7GLY0Esgnzght5BM&currency=EUR"></script>
+                <script>
+                    paypal.Buttons({
+                        // Order is created on the server and the order id is returned
+                        createOrder: (data, actions) => {
+                            return fetch("/www/paypal/api/orders", {
+                                method: "post",
+                                // use the "body" param to optionally pass additional order information
+                                // like product ids or amount
+                                body: JSON.stringify({
+                                    "items":
+                                        {
+                                            "id" : "{{ vivienda.id }}",
+                                            "name": "{{ vivienda.nombre }}",
+                                            "description": "{{ vivienda.descripcion }}",
+                                            "unit_amount": {
+                                                "currency_code": "EUR",
+                                                "value": "{{ precio_total }}"
+                                            }
+                                        }
+                                })
+                            })
+                                .then((response) => response.json())
+                                .then((order) => order.id);
+                        },
+                        // Finalize the transaction on the server after payer approval
+                        onApprove: function (data, actions) {
+                            actions.order.capture();
+                            fetch("/viviendas/paypal/finalizar/pago", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    vivienda: "{{ vivienda }}",
+                                    reserva: "{{ reserva }}"
+                                })
+                            }).then(function() {
+                                window.location.href = '/viviendas/propietario/reservas';
+                            });
+                        },
+                    }).render('#paypal-button-container');
+                </script>
+            </div>
+            {% else %}
+            <div class="card-header text-center">
+                <h2>Error al cargar los datos de la vivienda</h2>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        if (n > x.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = x.length };
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        x[slideIndex - 1].style.display = "inline";
+    }
+
+</script>
+{% endblock javascripts %}

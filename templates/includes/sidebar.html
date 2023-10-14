@@ -1,0 +1,56 @@
+<style>
+  .grow img {
+    transition: 0.25s ease;
+  }
+
+  .grow:hover {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+    transition: 0.25s ease;
+  }
+</style>
+
+<div class="sidebar" data-color="white" data-active-color="danger">
+  <div class="logo">
+    <div class="logo-image-small">
+      <a href="/viviendas">
+        <img src="/static/assets/img/logo.png">
+      </a>
+    </div>
+  </div>
+  <div class="sidebar-wrapper">
+    <ul class="nav">
+      <li class="{% if 'index' in segment %} active {% endif %} grow">
+        <a href="/viviendas">
+          <i class="nc-icon nc-shop"></i>
+          <p>Viviendas</p>
+        </a>
+      </li>
+      <li class="{% if 'misViviendas' in segment %} active {% endif %} grow">
+        <a href="/viviendas/misviviendas/propietario">
+          <i class="nc-icon nc-circle-10"></i>
+          <p>Mis Viviendas</p>
+        </a>
+      </li>
+      <li class="{% if 'misReservas' in segment %} active {% endif %} grow">
+        <a href="/viviendas/propietario/reservas">
+          <i class="nc-icon nc-calendar-60"></i>
+          <p>Mis Reservas</p>
+        </a>
+      </li>
+      <li class="{% if 'conversaciones' in segment %} active {% endif %} grow">
+        <a href="/conversaciones">
+          <i class="nc-icon nc-chat-33"></i>
+          <p>Mis Conversaciones</p>
+        </a>
+      </li>
+      <li class="{% if 'mapas' in segment %} active {% endif %} grow">
+        <a href="/viviendas/localizaciones/mapas">
+          <i class="nc-icon nc-pin-3"></i>
+          <p>Mapa</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

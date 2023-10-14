@@ -1,0 +1,94 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Reservar Vivienda {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2><b>Reservar Vivienda</b></h2>
+                    {% if error is defined %}
+                    <h3 style="color: red;"> {{ error }}</h3>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <form class="form-horizontal" role="form" action="" method="post">
+                        <div class="container text-left">
+                            <div class="col-md-10" style="margin-left:5px; font-size:15px; margin-bottom:0px;">
+                                {% if reservasFuturas|count > 0 %}
+                                <div class="col-sm-12">
+                                    <h4 style="margin-bottom:10px">Reservas actuales</h4>
+                                </div>
+                                <table class="table ">
+                                    <tr>
+                                        <th>Fecha inicio</th>
+                                        <th>Fecha fin</th>
+                                        <th>Usuario</th>
+                                    </tr>
+                                    {% for reserva in reservasFuturas %}
+                                    <tr>
+                                        <td> {{ reserva.fechaInicio.split(" ")[0] }}</td>
+                                        <td> {{ reserva.fechaFin.split(" ")[0] }}</td>
+                                        <td> {{ reserva.username }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                </table> 
+                                {% else %}
+                                <p>No hay reservas anteriores de esta vivienda</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="col-sm-12">
+                                    <h4 style="margin-bottom:10px">Precio/Noche</h4>
+                                </div>
+                                <div class="col-sm-12" style="margin-left:7px; font-size:14px; margin-bottom:20px;">
+                                    {{ vivienda.precio }} €/noche
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        Desde <input type="text" class="form-control" id="input_from" name="input_from" placeholder="Fecha inicial">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        Hasta <input type="text" class="form-control" id="input_to" name="input_to" placeholder="Fecha final">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row text-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    <button type="submit" value="submit" class="btn btn-warning m-4 w-25"
+                                        style="width: 200px; font-size: large;">Reservar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/js/reserva/jquery-3.3.1.min.js"></script>
+<script src="/static/assets/js/reserva/popper.min.js"></script>
+<script src="/static/assets/js/reserva/bootstrap.min.js"></script>
+<script src="/static/assets/js/reserva/picker.js"></script>
+<script src="/static/assets/js/reserva/picker.date.js"></script>
+<script src="/static/assets/js/reserva/calendar.js"></script>
+
+{% endblock javascripts %}

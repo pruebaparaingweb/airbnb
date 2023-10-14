@@ -1,0 +1,254 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Vivienda {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                {% if vivienda|count > 1 %}
+                <div class="card-header text-center">
+                    <h2><b>{{vivienda.nombre}}</b></h2>
+                </div>
+                <div class="card-body">
+                    <div class="col-sm-12">
+
+                        {% if vivienda.fotos|count > 0 %}
+                        <h4 style="margin-bottom:10px">Fotos</h4>
+                        <div class="text-center">
+                            <div class="">
+                                {% for url in vivienda.fotos %}
+                                <img src="{{ url }}" class="mySlides" alt="{{ vivienda.nombre }}" height="250px"
+                                    width="auto" />
+                                {% endfor %}
+                                </br>
+                                <button class="w3-btn-floating btn btn-light" style="width: 100px; height: auto"
+                                    onclick="plusDivs(-1)">&#10094;</button>
+                                <button class="w3-btn-floating btn btn-light" style="width: 100px; height: auto"
+                                    onclick="plusDivs(+1)">&#10095;</button>
+                            </div>
+
+
+                        </div>
+                        {% else %}
+                        <h4 style="margin-bottom:10px">No hay fotos disponibles</h4>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-sm-12">
+                        <h4 style="margin-bottom:10px">Descripci&oacute;n</h4>
+                    </div>
+                    <div class="col-sm-12">
+                        <p class="blockquote blockquote-primary" style="border-color:#a2a2a2; color:#000;">
+                            {{ vivienda.descripcion }}
+                        </p>
+                    </div>
+                    <div class="col-sm-12">
+                        <h4 style="margin-bottom:10px">Precio/Noche</h4>
+                    </div>
+                    <div class="col-sm-12" style="margin-left:7px; font-size:14px; margin-bottom:20px;">
+                        {{ vivienda.precio }} €/noche
+                    </div>
+                    <div class="col-sm-12">
+                        <h4 style="margin-bottom:10px">Capacidad</h4>
+                    </div>
+                    <div class="col-sm-12" style="margin-left:7px; font-size:14px; margin-bottom:0px;">
+                        {{ vivienda.capacidad }} hu&eacute;spedes
+                    </div>
+                    <div class="card card-plain">
+                        <div class="card-header">
+                            <h4 class="card-title">Localizaci&oacute;n</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-10" style="margin-left:7px; font-size:15px; margin-bottom:0px;">
+                                <table class="table ">
+                                    <tr>
+                                        <th>Pa&iacute;s</th>
+                                        <th>Provincia</th>
+                                        <th>Municipio</th>
+                                        <th>C&oacute;digo Postal</th>
+                                        <th>Calle</th>
+                                        <th>N&uacute;mero</th>
+                                        <th>N&uacute;mero de bloque</th>
+                                    </tr>
+                                    <tr>
+                                        <td> {{ vivienda.localizacion.pais }}</td>
+                                        <td> {{ vivienda.localizacion.provincia }}</td>
+                                        <td> {{ vivienda.localizacion.municipio }}</td>
+                                        <td> {{ vivienda.localizacion.cp }}</td>
+                                        <td> {{ vivienda.localizacion.calle }}</td>
+                                        <td> {{ vivienda.localizacion.numero }}</td>
+                                        <td> {{ vivienda.localizacion.numeroBloque }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-sm-12">
+                                <h4 style="margin-bottom:10px">Propietario</h4>
+                            </div>
+
+                            <div class="col-sm-12" style="margin-left:7px; font-size:14px; margin-bottom:20px;">
+                                {{ vivienda.propietario }}
+                            </div>
+                            <div class="col-sm-12">
+                                <h4 style="margin-bottom:10px">Tiempo</h4>
+                            </div>
+
+                            <div class="col-sm-12" style="margin-left:7px; font-size:14px; margin-bottom:20px;">
+                                {% if vivienda.temperaturas|count > 0 %}
+                                <table class="table ">
+                                    <tr>
+                                        {% for temperatura in vivienda.temperaturas %}
+                                        <th>{{temperatura[0]}}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        {% for temperatura in vivienda.temperaturas %}
+                                        <td> {{temperatura[1]}}-{{temperatura[2]}}ºC</td>
+                                        {% endfor %}
+                                    </tr>
+                                    <tr>
+                                        {% for precipitacion in vivienda.precipitacion %}
+                                        <td> <img src="/static/assets/img/{{precipitacion}}"  width="50" ></td>
+                                        {% endfor %}
+                                    </tr>
+                                    
+                                </table>
+                                {% else %}
+                                <p>No hay tiempo disponible</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-12">
+                                <h4 style="margin-bottom:10px">Reservas</h4>
+                            </div>
+                            <div class="col-md-10" style="margin-left:5px; font-size:15px; margin-bottom:0px;">
+                                {% if vivienda.reservas|count > 0 %}
+                                <table class="table ">
+                                    <tr>
+                                        <th>Fecha inicio</th>
+                                        <th>Fecha fin</th>
+                                        <th>Usuario</th>
+                                    </tr>
+                                    {% for reserva in vivienda.reservas %}
+                                    <tr>
+                                        <td> {{ reserva.fechaInicio.split(" ")[0] }}</td>
+                                        <td> {{ reserva.fechaFin.split(" ")[0] }}</td>
+                                        <td> {{ reserva.username }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                </table>
+                                {% else %}
+                                <p>No hay reservas anteriores de esta vivienda</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-12">
+                                <h4 style="margin-bottom:10px">Reseñas</h4>
+                            </div>
+                            <div class="col-md-10" style="margin-left:5px; font-size:15px; margin-bottom:0px;">
+                                {% if vivienda.reseñas|count > 0 %}
+                                <h6>Valoración media: {{ vivienda.valoracion }}</h6>
+                                <table class="table ">
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Comentario</th>
+                                        <th>Valoración</th>
+                                    </tr>
+                                    {% for reseña in vivienda.reseñas %}
+                                    <tr>
+                                        <td> {{ reseña.username }}</td>
+                                        <td> {{ reseña.comentario }}</td>
+                                        <td> {{ reseña.puntuacion }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                </table>
+                                {% else %}
+                                <p>No hay reseñas anteriores de esta vivienda</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col">
+                            {% if propietario is defined %}
+                            <a class="btn btn-warning w-25" style="width: 200px; font-size: large;"
+                                href="/viviendas/editarVivienda/{{vivienda.id}}">Editar</a>
+                            {% else %}
+                            <a class="btn btn-info w-25" style="width: 200px; font-size: large;" href="/viviendas/{{vivienda.id}}/nueva/reserva">Reservar</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="card-header text-center">
+                <h2>Error al cargar los datos de la vivienda</h2>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Localizaci&oacute;n de la vivienda en el mapa</h4><br />
+                    <div id="Map" style="height:500px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+
+{% block javascripts %}
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
+<script>
+    var lat = "{{vivienda.localizacion.lat}}";
+    var lon = "{{vivienda.localizacion.lon}}";
+    var zoom = 18;
+
+    var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+    var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+    var position = new OpenLayers.LonLat(lon, lat).transform(fromProjection, toProjection);
+
+    map = new OpenLayers.Map("Map");
+    var mapnik = new OpenLayers.Layer.OSM();
+    map.addLayer(mapnik);
+
+    var markers = new OpenLayers.Layer.Markers("Markers");
+    map.addLayer(markers);
+    markers.addMarker(new OpenLayers.Marker(position));
+
+    map.setCenter(position, zoom);
+</script>
+
+<script>
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        if (n > x.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = x.length };
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        x[slideIndex - 1].style.display = "inline";
+    }
+
+</script>
+
+{% endblock javascripts %}

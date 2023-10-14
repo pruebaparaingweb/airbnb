@@ -1,0 +1,85 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Mis Viviendas {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .grow img {
+        transition: 0.25s ease;
+    }
+
+    .grow:hover {
+        -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        transform: scale(1.1);
+        transition: 0.25s ease;
+    }
+</style>
+{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="content text-center card ml-3 mr-3 p-3">
+
+    <h3><b>Reservas futuras</b></h3>
+
+    {% if reservasFuturas|count > 0 %}
+    <table class="table">
+        <tr>
+            <th>Vivienda</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Precio/Noche</th>
+            <th></th>
+        </tr>
+        {% for reserva in reservasFuturas %}
+        <tr>
+            <td>{{ reserva.nombreVivienda }}</td>
+            <td>{{reserva.fechaInicio}}</td>
+            <td>{{reserva.fechaFin}}</td>
+            <td>{{reserva.precio}} €/noche</td>
+            <td><a class="btn btn-warning" style="font-size: large;"href="/conversaciones/contactar/vivienda/{{reserva.vivienda}}">Contactar</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <h2>No hay reservas futuras</h2>
+    {% endif %}
+</div>
+<div class="content text-center card ml-3 mr-3 p-3">
+
+    <h3><b>Reservas pasadas</b></h3>
+
+    {% if reservasPasadas|count > 0 %}
+    <table class="table">
+        <tr>
+            <th>Vivienda</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Precio/Noche</th>
+            <th></th>
+        </tr>
+        {% for reserva in reservasPasadas %}
+        <tr>
+            <td>{{ reserva.nombreVivienda }}</td>
+            <td>{{ reserva.fechaInicio }}</td>
+            <td>{{ reserva.fechaFin }}</td>
+            <td>{{ reserva.precio }} €/noche</td>
+            {% if reserva.reseñaExistente %}
+            <td>Ya valorada</td>
+            {% else %}
+            <td><a class="btn btn-warning" style="width: 200px; font-size: large;"href="/viviendas/{{reserva.vivienda}}/nueva/valoracion">Valorar</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <h2>No hay reservas pasadas</h2>
+    {% endif %}
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,0 +1,23 @@
+{
+	"version": 2,
+	"builds": [
+	  {
+		"src": "app.py",
+		"use": "@vercel/python",
+		"config": {
+		  "PYTHON_RUNTIME_BINARY": "python3",
+		  "PYTHON_RUNTIME_PACKAGES": "uvicorn,jinja2"
+		}
+	  }
+	],
+	"routes": [
+	  {
+		"src": "static/assets/(.*)",
+		"dest": "static/assets/(.*)"
+	  },
+	  {
+		"src": "/(.*)",
+		"dest": "app.py"
+	  }
+	]
+  }

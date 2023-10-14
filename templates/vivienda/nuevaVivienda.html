@@ -1,0 +1,230 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Nueva Vivienda {% endblock %} 
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header text-center">
+          <h2><b>Publicar Vivienda</b></h2>
+
+          {% if error is defined %}
+            <h3 style="color: red;"> {{ error }}</h3>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          {% if vivienda is defined %}
+          <form class="form-horizontal" role="form" action="" method="post">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card card-plain">
+                  <div class="card-header">
+                    <h5 class="card-title">Datos de la Vivienda</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <div class="col-sm-5">
+                        Nombre <input type="text" class="form-control" name="inputNombre" id="inputNombre"
+                          value="{{ vivienda.nombre }}">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-5">
+                        Descripci&oacute;n <input type="text" class="form-control" name="inputDescripcion"
+                          id="inputDescripcion" value="{{ vivienda.descripcion }}">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-5">
+                        Precio/Noche <input type="number" class="form-control" name="inputPrecio" id="inputPrecio"
+                          value="{{ vivienda.precio }}">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-5">
+                        Capacidad <input type="number" class="form-control" name="inputCapacidad" id="inputCapacidad"
+                          value="{{ vivienda.capacidad }}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card card-plain">
+                  <div class="card-header">
+                    <h5 class="card-title">Localizacion</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class=row>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            Pa&iacute;s <input type="text" class="form-control" name="inputPais" id="inputPais"
+                              value="{{ vivienda.localizacion.pais }}">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            Provincia <input type="text" class="form-control" name="inputProvincia" id="inputProvincia"
+                              value="{{ vivienda.localizacion.provincia }}">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            Municipio <input type="text" class="form-control" name="inputMunicipio" id="inputMunicipio"
+                              value="{{ vivienda.localizacion.municipio }}">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            C&oacute;digo Postal <input type="text" class="form-control" name="inputCodigoPostal"
+                              id="inputCodigoPostal" value="{{ vivienda.localizacion.cp }}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            Calle <input type="text" class="form-control" name="inputCalle" id="inputCalle"
+                              value="{{ vivienda.localizacion.calle }}">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            N&uacute;mero <input type="text" class="form-control" name="inputNumero" id="inputNumero"
+                              value="{{ vivienda.localizacion.numero }}">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            N&uacute;mero de Bloque <input type="text" class="form-control" name="inputNumeroBloque"
+                              id="inputNumeroBloque" value="{{ vivienda.localizacion.numeroBloque }}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10">
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-info" style="width: 200px;" type="submit" value="submit" class="btn btn-warning mr-4">Siguiente</button>
+              </div>
+          </form>
+          {% else %}
+          <form class="form-horizontal" role="form" action="" method="post">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card card-plain">
+                  <div class="card-header">
+                    <h5 class="card-title">Datos de la Vivienda</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <div class="col-sm-5">
+                        Nombre <input type="text" class="form-control" name="inputNombre" id="inputNombre" value="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-5">
+                        Descripci&oacute;n <input type="text" class="form-control" name="inputDescripcion"
+                          id="inputDescripcion" value="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-5">
+                        Precio/Noche <input type="number" class="form-control" name="inputPrecio" id="inputPrecio" value="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-5">
+                        Capacidad <input type="number" class="form-control" name="inputCapacidad" id="inputCapacidad"
+                          value="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card card-plain">
+                  <div class="card-header">
+                    <h5 class="card-title">Localizacion</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class=row>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            Pa&iacute;s <input type="text" class="form-control" name="inputPais" id="inputPais"
+                              value="">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            Provincia <input type="text" class="form-control" name="inputProvincia" id="inputProvincia"
+                              value="">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            Municipio <input type="text" class="form-control" name="inputMunicipio" id="inputMunicipio"
+                              value="">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            C&oacute;digo Postal <input type="text" class="form-control" name="inputCodigoPostal"
+                              id="inputCodigoPostal" value="">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            Calle <input type="text" class="form-control" name="inputCalle" id="inputCalle" value="">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            N&uacute;mero <input type="text" class="form-control" name="inputNumero" id="inputNumero"
+                              value="">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-sm-10">
+                            N&uacute;mero de Bloque <input type="text" class="form-control" name="inputNumeroBloque"
+                              id="inputNumeroBloque" value="">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10">
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-info" style="width: 200px;" type="submit" value="submit" class="btn btn-warning mr-4">Siguiente</button>
+              </div>
+            </div>
+          </form>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+{% endblock content %}

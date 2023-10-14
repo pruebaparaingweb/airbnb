@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Mapa {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <!-- End Navbar -->
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card ">
+            <div class="card-body">
+              <h4><b>Localizacion de las vivienda en el mapa</b></h4>
+                <br/>
+              <div id="Map" style="height:500px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% for l in localizaciones  %}
+
+{% endfor %}
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}    
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
+<script>
+    var zoom = 6;
+
+    var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+    var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+    
+    map = new OpenLayers.Map("Map");
+    var mapnik = new OpenLayers.Layer.OSM();
+    map.addLayer(mapnik);
+
+    var markers = new OpenLayers.Layer.Markers("Markers");
+    map.addLayer(markers);
+    
+    localizaciones = "{{ localizaciones }}";
+    localizaciones = localizaciones.replace(/(\[)/gm, '');
+    localizaciones = localizaciones.replace(/(\])/gm, '');
+    localizaciones = localizaciones.replace(/(\ )/gm, '');
+    localizaciones = localizaciones.split(',');
+
+    for(let i = 0;i<localizaciones.length;i =i+2){
+      lat = localizaciones[i];
+      lon = localizaciones[i+1];
+      position = new OpenLayers.LonLat(lon, lat).transform(fromProjection, toProjection);
+      markers.addMarker(new OpenLayers.Marker(position));
+    }
+
+    lat = 40.416775;
+    lon = -3.703790;
+    position = new OpenLayers.LonLat(lon, lat).transform(fromProjection, toProjection);
+    map.setCenter(position, zoom);
+
+</script>
+{% endblock javascripts %}

@@ -1,0 +1,57 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Mis Conversaciones {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .grow img {
+        transition: 0.25s ease;
+    }
+
+    .grow:hover {
+        -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        transform: scale(1.1);
+        transition: 0.25s ease;
+    }
+</style>
+{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="content text-center card ml-3 mr-3 p-3">
+
+    <h3><b>Conversaciones</b></h3>
+
+    {% if conversaciones|count > 0 %}
+    <table class="table">
+        <tr>
+            <th>Usuario</th>
+            <th>Ultimo mensaje</th>
+            <th></th>
+        </tr>
+        {% for conversacion in conversaciones %}
+        <tr>
+            {% if conversacion.participante1 != usuario %}
+            <td>{{conversacion.participante1}}</td>
+            {% else %}
+            <td>{{conversacion.participante2}}</td>
+            {% endif %}
+            {% if conversacion.mensajes|count > 0 %}
+            <td>{{conversacion.mensajes[(conversacion.mensajes|count) - 1]["contenido"]}}</td>
+            {% else %}
+            <td>No hay mensajes</td>
+            {% endif %}
+            <td><a class="btn btn-warning" style="font-size: large;"href="/conversaciones/{{conversacion.id}}">Entrar</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <h5>No hay conversaciones. Para crear una, dirígete a tus reservas e inicia una.</h5>
+    {% endif %}
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,0 +1,107 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Conversacion {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .grow img {
+        transition: 0.25s ease;
+    }
+
+    .grow:hover {
+        -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        transform: scale(1.1);
+        transition: 0.25s ease;
+    }
+</style>
+{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="content text-center">
+    {% if usuario == conversacion.participante2%}
+        <h3><b>Conversación con {{ conversacion.participante1 }}</b></h3>
+    {% else %}
+        <h3><b>Conversación con {{ conversacion.participante2 }}</b></h3>
+    {% endif %}
+
+    <!--<table class="table">
+        <tr>
+            <th>Emisor</th>
+            <th>Fecha</th>
+            <th>Mensaje</th>
+        </tr>
+        {% for mensaje in conversacion.mensajes %}
+        <tr>
+            <td>{{mensaje.emisor}}</td>
+            <td>{{mensaje.fecha}}</td>
+            <td>{{mensaje.contenido}}</td>
+        </tr>
+        {% endfor %}
+    </table>-->
+
+    <div class="card p-3 w-50" style="width: 18rem; border-radius: 8px; margin: auto; height: 500px; min-width: 400px;">
+        <div class="row"
+            style="height: 440px; width: 95%; margin: auto; border: 1px solid gray; border-radius: 8px; overflow-y: scroll; display: flex; flex-direction: column-reverse;">
+            <div class="col">
+                {% for mensaje in conversacion.mensajes %}
+                {% if usuario == mensaje.emisor %}
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <div class="alert-success text-end px-5 py-2 ms-5 mb-4">
+                            <p class="text-break">{{ mensaje.contenido }}
+                            </p>
+
+                            <span style="font-size:11px">{{ mensaje.fecha }}</span>
+                            <br />
+                            <span style="font-size:9px"><b>T&uacute;</b></span>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="row ">
+                    <div class="col-auto justify-content-start">
+                        <div class="alert-dark text-start mb-4 px-5 py-2 me-5">
+                            <p class="text-break">{{ mensaje.contenido }}
+                            </p>
+
+                            <span style="font-size:11px">{{ mensaje.fecha }}</span>
+                            <br />
+                            <span style="font-size:9px"><b>{{ mensaje.emisor }}</b></span>
+                        </div>
+                    </div>
+                </div>
+                {% endif%}
+                {% endfor %}
+            </div>
+        </div>
+        <form class="row m-3" style="height: 60px" action="/conversaciones/{{conversacion.id}}/contactar/nuevo/mensaje/"
+            method="post">
+            <textarea placeholder="Escriba el mensaje aqu&iacute;" style="border-radius: 8px; border: 1px solid gray;"
+                class="col form-control" id="inputMensaje" name="inputMensaje"></textarea>
+            <button class="btn btn-warning text-center" type="submit" style="width: 60px" id="botonEnviar" name="botonEnviar"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                </svg></a>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    var input = document.getElementById("inputMensaje");
+    input.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("botonEnviar").click();
+        }
+    });
+</script>
+
+{% endblock javascripts %}
