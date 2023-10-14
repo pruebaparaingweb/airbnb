@@ -11,10 +11,10 @@ from datetime import datetime
 
 Templates = Jinja2Templates(directory="templates")
 
-url = 'http://127.0.0.1:8001'
-url_inicio = 'http://127.0.0.1:8000/'
-#url = 'https://api-airbnb.vercel.app'
-#url_inicio = 'https://casas-tapia.vercel.app/'
+#url = 'http://127.0.0.1:8001'
+#url_inicio = 'http://127.0.0.1:8000/'
+url = 'https://api-airbnb-three.vercel.app'
+url_inicio = 'https://airbnb-seven-pi.vercel.app/'
 
 conversacion = APIRouter()
 
