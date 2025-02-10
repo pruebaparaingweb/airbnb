@@ -39,9 +39,8 @@ from starlette.config import environ
 # CLIENT_ID = "279553875286-bu62e94dpbibtqn02s0vbf2m6arjros6.apps.googleusercontent.com"
 # CLIENT_SECRET = "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"
 
-CLIENT_ID = "423516861949-1ore6qlqmemq164dvmvar4lt424c7lgs.apps.googleusercontent.com"
-CLIENT_SECRET = "DS1oK9NNAI0AfGc925e2GCGv"
-
+CLIENT_ID = "853416967262-2tj4veftl34oseq1jrir94lru2pstb6a.apps.googleusercontent.com"
+CLIENT_SECRET = "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"
 
 oauth = OAuth()
 oauth.register(
